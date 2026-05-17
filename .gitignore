@@ -1,0 +1,44 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Variables de entorno (nunca subir al repo)
+.env
+
+# Configuración de Claude Code
+.claude/
+.env.local
+.env.*.local
+
+# Archivos de datos de muestra / prueba local
+*.csv
+*.xlsx
+*.xls
+
+# Cobertura de tests
+.coverage
+htmlcov/
+coverage.xml
+
+# Logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -1,0 +1,7 @@
+pandas>=2.0
+openpyxl>=3.1
+xlrd>=2.0
+streamlit>=1.35
+plotly>=5.20
+groq>=0.4
+python-dotenv>=1.0
