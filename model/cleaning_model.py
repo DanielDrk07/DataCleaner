@@ -5,6 +5,7 @@ Mantiene historial de estados para soportar undo.
 Completamente independiente de la GUI.
 """
 import pandas as pd
+from collections import deque
 from typing import Optional, List, Tuple
 
 
@@ -23,8 +24,8 @@ class CleaningModel:
 
     def __init__(self):
         self._df: Optional[pd.DataFrame] = None
-        self._history: List[pd.DataFrame] = []
-        self._change_log: List[str] = []
+        self._history: deque[pd.DataFrame] = deque(maxlen=self.MAX_HISTORY)
+        self._change_log: deque[str] = deque(maxlen=self.MAX_HISTORY)
 
     # ── Acceso ─────────────────────────────────────────────────────────
 
@@ -40,7 +41,7 @@ class CleaningModel:
 
     @property
     def change_log(self) -> List[str]:
-        """Copia de la lista de descripciones de operaciones aplicadas."""
+        """Operaciones aplicadas, de la más antigua a la más reciente."""
         return list(self._change_log)
 
     def load(self, df: pd.DataFrame) -> None:
@@ -51,8 +52,8 @@ class CleaningModel:
                 mutaciones externas.
         """
         self._df = df.copy()
-        self._history.clear()
-        self._change_log.clear()
+        self._history = deque(maxlen=self.MAX_HISTORY)
+        self._change_log = deque(maxlen=self.MAX_HISTORY)
 
     # ── Historial / Undo ────────────────────────────────────────────────
 
@@ -68,8 +69,6 @@ class CleaningModel:
         """
         if self._df is not None:
             self._history.append(self._df.copy())
-            if len(self._history) > self.MAX_HISTORY:
-                self._history.pop(0)
             self._change_log.append(description)
 
     def can_undo(self) -> bool:

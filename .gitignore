@@ -1,44 +1,78 @@
+# ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *.pyo
-.pytest_cache/
+*.pyd
+*.so
+
+# ── Entornos virtuales ────────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.Python
+__pypackages__/
+
+# ── Empaquetado ───────────────────────────────────────────────────────────────
+*.egg
 *.egg-info/
 dist/
 build/
+MANIFEST
+pip-wheel-metadata/
 
-# Entornos virtuales
-venv/
-.venv/
-env/
-
-# Variables de entorno (nunca subir al repo)
-.env
-
-# Configuración de Claude Code
-.claude/
-.env.local
-.env.*.local
-
-# Archivos de datos de muestra / prueba local
-*.csv
-*.xlsx
-*.xls
-
-# Cobertura de tests
+# ── Tests y cobertura ─────────────────────────────────────────────────────────
+.pytest_cache/
 .coverage
 htmlcov/
 coverage.xml
 
-# Logs
-*.log
+# ── Linters y type checkers ───────────────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
 
-# Sistema operativo
+# ── Variables de entorno (NUNCA subir) ────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Streamlit ─────────────────────────────────────────────────────────────────
+# secrets.toml puede contener API keys — nunca subir
+.streamlit/secrets.toml
+
+# ── Archivos de datos (el usuario los carga en la app) ───────────────────────
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.pkl
+*.pickle
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Logs y temporales ─────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Sistema operativo ─────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 desktop.ini
+ehthumbs.db
 
-# IDE
+# ── IDEs ──────────────────────────────────────────────────────────────────────
 .idea/
 .vscode/
-*.swp
-*.swo
+*.code-workspace
+
+# ── Claude Code ───────────────────────────────────────────────────────────────
+.claude/

@@ -5,3 +5,4 @@ streamlit>=1.35
 plotly>=5.20
 groq>=0.4
 python-dotenv>=1.0
+pytest>=7.0
