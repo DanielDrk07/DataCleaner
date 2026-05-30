@@ -219,6 +219,8 @@ class CleaningModel:
         """
         self._require_df()
         backup = self._df.copy()
+        # Guardar el estado original ANTES de mutar para que undo() lo restaure
+        self._save_state(f"Convertir '{column}' a {target_type}")
         try:
             if target_type == "int":
                 self._df[column] = pd.to_numeric(self._df[column], errors="coerce").astype("Int64")
@@ -228,10 +230,12 @@ class CleaningModel:
                 self._df[column] = self._df[column].astype(str)
             elif target_type == "datetime":
                 self._df[column] = pd.to_datetime(self._df[column], errors="coerce")
-            self._save_state(f"Convertir '{column}' a {target_type}")
             return True, f"'{column}' convertida a {target_type}."
         except Exception as e:
+            # En caso de fallo, revertir el DataFrame y descartar el estado guardado
             self._df = backup
+            self._history.pop()
+            self._change_log.pop()
             return False, str(e)
 
     def rename_column(self, old_name: str, new_name: str) -> Tuple[bool, str]:
@@ -272,6 +276,8 @@ class CleaningModel:
         self._require_df()
         before = len(self._df)
         backup = self._df.copy()
+        # Guardar el estado original ANTES de mutar para que undo() lo restaure
+        self._save_state(f"Filtrar filas: '{column}' {operator} '{value}'")
         try:
             col = self._df[column]
             if operator == "==":
@@ -293,9 +299,11 @@ class CleaningModel:
             else:
                 mask = pd.Series([False] * len(self._df))
             self._df = self._df[~mask].reset_index(drop=True)
-            self._save_state(f"Filtrar filas: '{column}' {operator} '{value}'")
         except Exception as e:
+            # En caso de fallo, revertir el DataFrame y descartar el estado guardado
             self._df = backup
+            self._history.pop()
+            self._change_log.pop()
             raise ValueError(str(e)) from e
         return before - len(self._df)
 
